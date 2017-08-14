@@ -13,14 +13,24 @@ Requirements:
 
 Run the example
 1. First, generate the training features, both from reverberant and clean wave:
+
+   mkdir fb_clean && mkdir fb_reverb
+   
    HCopy -A -T 1 -C convert.cfg -S reverb_wav2fb.lst
+   
    HCopy -A -T 1 -C convert.cfg -S clean_wav2fb.lst
+   
    The file convert.cfg tells HTK to output 31 channel log-mel features. You can generate whatever features you like, and store them in    HTK format.
 2. Compute the global mean and variance from training data, for both reverberant and clean speech:
+
    HCompV -A -T 1 -c . -k '*.%%%' -q mv -S train_reverb_fea.lst
+   
    mv fea stat_reverb
+   
    HCompV -A -T 1 -c . -k '*.%%%' -q mv -S train_clean_fea.lst
+   
    mv fea stat_clean
+   
    The -k option tells HCompV to compute statistics from all files ending with the same last 3 characters in their filename, namely, globally, and -q mv tells HCompV to compute both mean and variance.
 3. Run preprocess_cnn.py. This script convert the HTK features to the required pytorch tensor format. Later, when training the models, it's important to load a large chunk of features into memory, rather than loading one utterance at a time. proprocess_cnn.py randomly groups speech frames into a 0.5 hour chunk stored in a .h5 file. Later, these .h5 chunks will be loaded into memory to greatly speech up data loading. Also, preprocess_cnn.py does global mean and variance normalization. The reverberant speech has a longer duration than the clean data. preprocess.py simply throws away the extra frames of the reverberant data from the end.
 4. Run train_cnn.py. It should be clear what the parameters mean if you know VGG and ResNet. The detailed model structures are in the module set_model_vgg.py and set_model_res.py.

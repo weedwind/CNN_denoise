@@ -109,7 +109,7 @@ def gen_post(feat_list, stat_file, model, win_size_before = 15, win_size_after =
 
 if __name__ == '__main__':
    numcep = 13
-   model_path = 'weights_cnn/epoch1_lr0.001.pkl'
+   model_path = 'your/model/path/filename'
    model = set_model_vgg.setup_model(num_targets = 31)
    #model = set_model_res.resnet17(input_height = 31, input_width = 31, num_targets = 31)    # if you want to use resnet, set it here, height = frequency, width = time
    model = model.type(gpu_dtype)

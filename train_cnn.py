@@ -19,7 +19,7 @@ gpu_dtype = torch.cuda.FloatTensor
 
 train_dir_base = 'train_cnn'
 
-data_files = glob.glob(train_dir_base + '/' + '1.h5')
+data_files = glob.glob(train_dir_base + '/' + '*.h5')
 
 num_chunks = len(data_files)
 
